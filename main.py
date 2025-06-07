@@ -14,7 +14,6 @@ config = {
     'epochs': 10,
     'lr': 5e-4,
     'weight_decay': 3e-4,
-    'freeze_backbone': False,
     'input_size': (640, 640),
 
     'resume': True,
@@ -69,8 +68,6 @@ if config['run_eda']:
     draw_bbox(image_file, image_id_to_annos[id], './asset/sample.png')
     print('--- EDA Finished ---')
 
-
-
 # --------------------------
 # Model, Criterion, Optimizer
 # --------------------------
@@ -81,11 +78,7 @@ from src.loss import DetectionLoss
 from src.utils import set_backbone_requires_grad
 network = ResNetFPN().to(device)
 criterion = DetectionLoss()
-optimizer = optim.AdamW(network.parameters(), lr=config['lr'], weight_decay=config['weight_decay'])
-
-if config['freeze_backbone']:
-    set_backbone_requires_grad(network, requires_grad=False)
-    optimizer = optim.AdamW(filter(lambda p: p.requires_grad, network.parameters()), lr=config['lr'], weight_decay=config['weight_decay'])
+optimizer = optim.AdamW(filter(lambda p: p.requires_grad, network.parameters()), lr=config['lr'], weight_decay=config['weight_decay'])
 
 start_epoch = 0
 if config['resume']:
