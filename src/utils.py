@@ -29,7 +29,7 @@ def get_amp_components(device):
 
 def init_csv_log(fdst, fieldnames):
     file_exists = os.path.exists(fdst)
-    if not file_exists or is_empty:
+    if not file_exists:
         os.makedirs(os.path.dirname(fdst), exist_ok=True)
         with open(fdst, mode='w', newline='', encoding='utf-8') as f:
             writer = csv.DictWriter(f, fieldnames=fieldnames)
