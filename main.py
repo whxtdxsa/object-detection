@@ -7,11 +7,12 @@ import torch
 # Configuration
 # --------------------------
 config = {
-    'run_eda': True,
+    'run_downloader': False,
+    'run_eda': False,
 
-    'batch_size': 128,
+    'batch_size': 256,
     'epochs': 10,
-    'lr': 1e-4,
+    'lr': 5e-4,
     'weight_decay': 3e-4,
     'freeze_backbone': False,
     'input_size': (640, 640),
@@ -19,7 +20,7 @@ config = {
     'resume': False,
     'start_epoch': 88,
 }
-experiment_name = f'bs{config['batch_size']}_lr{config['lr']}'
+experiment_name = f"bs{config['batch_size']}_lr{config['lr']}"
 log_dir = f'./runs/train/{experiment_name}'
 
 train_images_dir = './dataset/images/train'
@@ -40,8 +41,9 @@ amp_context, scaler = get_amp_components(device)
 # Data Preprocessing
 # --------------------------
 from src.downloader import prepare_dataset
-prepare_dataset('train')
-prepare_dataset('val')
+if config['run_downloader']:
+    prepare_dataset('train')
+    prepare_dataset('val')
 
 
 # --------------------------
@@ -111,7 +113,7 @@ init_csv_log(csv_file, csv_fieldnames)
 
 for i in range(config['epochs']):
     epoch = start_epoch + i + 1
-    print(f'Epoch {epoch}/{start_epoch + config['epochs']}')
+    print(f"Epoch {epoch}/{start_epoch + config['epochs']}")
     train_loss = train_one_epoch(network, train_loader, optimizer, criterion, device, amp_context, scaler)
     test_loss = evaluate_loss(network, test_loader, criterion, device, amp_context)
 

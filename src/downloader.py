@@ -10,7 +10,7 @@ def prepare_dataset(dtype='val'):
     if not os.path.exists(f'dataset/labels/{dtype}'):
         extract_person_data(f'./dataset/labels/coco_{dtype}.json', f'./dataset/labels/{dtype}.json')
 
-def download_and_unzip_dataset(dataset_dir='dataset', dtype='val'):
+def download_and_unzip_dataset(dataset_dir='./dataset', dtype='val'):
     if dtype != 'train' and dtype != 'val':
         print(f'Skipping downloaing {dtype} data: Incorrect dtype')
         return
@@ -28,10 +28,10 @@ def download_and_unzip_dataset(dataset_dir='dataset', dtype='val'):
         print(f'Skipping Downloaing {dtype} Data: Already Exist')
     else:
         # Donwload Data
-        os.makedirs(images_dir, exist_ok=True)
-        os.makedirs(labels_dir, exist_ok=True)
+        os.makedirs(os.path.dirname(zimages_dst), exist_ok=True)
+        os.makedirs(os.path.dirname(zlabels_dst), exist_ok=True)
         print(f'Donwload {dtype} Data')
-        download_dataset(images_url, labels_url, images_dst, labels_dst) 
+        download_dataset(images_url, labels_url, zimages_dst, zlabels_dst) 
     
         # Unzip Data
         print(f'Unzip {dtype} Data')
@@ -41,6 +41,8 @@ def download_dataset(images_url, labels_url, zimages_dst, zlabels_dst):
     subprocess.run(
         ['aria2c', '-x16', '-s16', '-d', os.path.dirname(zimages_dst), '-o', os.path.basename(zimages_dst), images_url],
         check=True,
+        capture_output=True,
+        text=True
     )
     subprocess.run(
         ['aria2c', '-x16', '-s16', '-d', os.path.dirname(zlabels_dst), '-o', os.path.basename(zlabels_dst), labels_url],
