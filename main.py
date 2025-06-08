@@ -11,7 +11,7 @@ config = {
     'run_eda': False,
 
     'batch_size': 128,
-    'epochs': 100,
+    'epochs': 50,
     'lr': 1e-4,
     'weight_decay': 3e-4,
     'input_size': (640, 640),
