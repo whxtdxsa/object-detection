@@ -8,6 +8,8 @@ from PIL import ImageDraw
 import random
 import torch
 import torchvision 
+import pandas as pd
+import matplotlib.pyplot as plt
 
 def set_seed(seed: int = 42):
     random.seed(seed)
