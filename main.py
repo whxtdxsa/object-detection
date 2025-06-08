@@ -11,12 +11,12 @@ config = {
     'run_eda': False,
 
     'batch_size': 128,
-    'epochs': 10,
-    'lr': 5e-4,
+    'epochs': 100,
+    'lr': 3e-4,
     'weight_decay': 3e-4,
     'input_size': (640, 640),
 
-    'resume': True,
+    'resume': False,
     'start_epoch': 10,
 }
 experiment_name = f"bs{config['batch_size']}_lr{config['lr']}"
@@ -84,7 +84,7 @@ start_epoch = 0
 if config['resume']:
     start_epoch = config['start_epoch']
     weight_file = os.path.join(log_dir, f'e_{start_epoch}.pt')
-    network.load_state_dict(torch.load(weight_to_file, map_location=device))
+    network.load_state_dict(torch.load(weight_file, map_location=device))
 
 # --------------------------
 # DataLoaders
