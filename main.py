@@ -12,15 +12,18 @@ config = {
 
     'batch_size': 128,
     'epochs': 100,
-    'lr': 3e-4,
+    'lr': 1e-4,
     'weight_decay': 3e-4,
     'input_size': (640, 640),
 
     'resume': False,
-    'start_epoch': 10,
+    'start_epoch': 100,
+
+    'pretrained': True
 }
 experiment_name = f"bs{config['batch_size']}_lr{config['lr']}"
 log_dir = f'./runs/train/{experiment_name}'
+pretrained_weight_file = './runs/train/bs128_lr0.0003/e_100.pt'
 
 train_images_dir = './dataset/images/train'
 train_annos_file = './dataset/labels/train.json'
@@ -84,15 +87,21 @@ if config['resume']:
     start_epoch = config['start_epoch']
     weight_file = os.path.join(log_dir, f'e_{start_epoch}.pt')
     network.load_state_dict(torch.load(weight_file, map_location=device))
+    print(f'Continuous Learning from {weight_file}')
+elif config['pretrained']:
+    weight_file = pretrained_weight_file
+    network.load_state_dict(torch.load(weight_file, map_location=device))
+    print(f'Import Pretrained Model from {weight_file}')
+
 
 # --------------------------
 # DataLoaders
 # --------------------------
-# from src.loader import get_custom_dataloaders
-# train_loader, test_loader = get_custom_dataloaders(
-#     train_images_dir, train_annos_file, val_images_dir, val_annos_file, 
-#     batch_size=config['batch_size'], input_size=config['input_size']
-# ) 
+from src.loader import get_custom_dataloaders
+train_loader, test_loader = get_custom_dataloaders(
+    train_images_dir, train_annos_file, val_images_dir, val_annos_file, 
+    batch_size=config['batch_size'], input_size=config['input_size']
+) 
 
 # --------------------------
 # Training Loop 
@@ -103,19 +112,19 @@ csv_file = os.path.join(log_dir, 'result.csv')
 csv_fieldnames = ['epoch', 'train_loss', 'test_loss']
 init_csv_log(csv_file, csv_fieldnames)
 
-# for i in range(config['epochs']):
-#     epoch = start_epoch + i + 1
-#     print(f"Epoch {epoch}/{start_epoch + config['epochs']}")
-#     train_loss = train_one_epoch(network, train_loader, optimizer, criterion, device, amp_context, scaler)
-#     test_loss = evaluate_loss(network, test_loader, criterion, device, amp_context)
-#
-#     log_to_csv(csv_file, {
-#         'epoch': epoch,
-#         'train_loss': train_loss,
-#         'test_loss': test_loss
-#     })
-#     print(f'Train_loss: {train_loss:.4f}, Test_loss: {test_loss:.4f}')
-#     torch.save(network.state_dict(), os.path.join(log_dir, f'e_{epoch}.pt'))
+for i in range(config['epochs']):
+    epoch = start_epoch + i + 1
+    print(f"Epoch {epoch}/{start_epoch + config['epochs']}")
+    train_loss = train_one_epoch(network, train_loader, optimizer, criterion, device, amp_context, scaler)
+    test_loss = evaluate_loss(network, test_loader, criterion, device, amp_context)
+
+    log_to_csv(csv_file, {
+        'epoch': epoch,
+        'train_loss': train_loss,
+        'test_loss': test_loss
+    })
+    print(f'Train_loss: {train_loss:.4f}, Test_loss: {test_loss:.4f}')
+    torch.save(network.state_dict(), os.path.join(log_dir, f'e_{epoch}.pt'))
 
 
 # --------------------------
