@@ -7,7 +7,7 @@ class ResNetFPN(nn.Module):
     """
     output of conv: {c2, c3, c4, c5}
     strides of conv: {4, 8, 16, 32}
-    fpn_dim: 64
+    fpn_dim: 256
     """
     def __init__(self):
         super().__init__()
@@ -27,8 +27,8 @@ class ResNetFPN(nn.Module):
             param.requires_grad = False
 
         # FPN Layers
-        in_channels = [64, 128, 256, 512]
-        fpn_dim = 64
+        in_channels = [256, 512, 1024, 2048]
+        fpn_dim = 256
 
         self.lat_convs = nn.ModuleList([nn.Conv2d(c, fpn_dim, kernel_size=1) for c in in_channels])
         self.smooth_convs = nn.ModuleList([nn.Conv2d(fpn_dim, fpn_dim, kernel_size=3, padding=1) for _ in in_channels])
