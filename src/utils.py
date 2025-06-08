@@ -40,6 +40,25 @@ def log_to_csv(path, data_dict):
         writer = csv.DictWriter(f, fieldnames=data_dict.keys())
         writer.writerow(data_dict)
 
+def plot_loss(path, fdst):
+    df = pd.read_csv(path)
+
+    plt.figure(figsize=(10, 6)) # Optional: Adjust figure size
+
+    plt.plot(df['epoch'], df['train_loss'], label='train_loss')
+    plt.plot(df['epoch'], df['test_loss'], label='test_loss')
+
+    plt.title('Training and Test Loss over Epochs')
+    plt.xlabel('Epoch')
+    plt.ylabel('Loss')
+
+    plt.legend()
+    
+    plt.grid(True) # Optional: Add a grid
+    plt.tight_layout()
+    plt.savefig(fdst)
+    plt.clf()
+
 
 def draw_bboxes(image_tensor, pred_tensor, conf_threshold=0.1, save_path="output.jpg"):
     # pred_tensor[:,4] = torch.sigmoid(pred_tensor[:,4])
@@ -131,9 +150,3 @@ def postprocess_single_image_predictions(
 
     return final_detections
 
-def set_backbone_requires_grad(model, requires_grad: bool = False):
-    for name, param in model.named_parameters():
-        if any(layer in name for layer in ['layer2', 'layer3', 'layer4']):
-            param.requires_grad = requires_grad
-        if 'layer1' in name:
-            param.requires_grad = False  # 항상 고정

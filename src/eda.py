@@ -12,7 +12,7 @@ def extract_annotations(annos):
     print(annos['annotations'][0])
     print(annos['categories'][0])
 
-def plot_eda(annos, save_dir='./asset'):
+def plot_eda(annos, save_dir='./runs/eda/'):
     print('\nPlotting EDA Graphs------------------')
     print('-------------------------------------')
     os.makedirs(save_dir, exist_ok=True)
@@ -74,7 +74,7 @@ def plot_bbox_counts(annos, fdst):
     plt.savefig(fdst)
     plt.clf()
 
-def draw_bbox(image_file, annos, fdst='./asset/bbox.png'):
+def draw_bbox(image_file, annos, fdst='./runs/eda/bbox.png'):
     os.makedirs('./asset', exist_ok=True)
     img = Image.open(image_file)
     draw = ImageDraw.Draw(img)

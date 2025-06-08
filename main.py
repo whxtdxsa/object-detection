@@ -75,7 +75,6 @@ import torch.optim as optim
 
 from src.model import ResNetFPN 
 from src.loss import DetectionLoss
-from src.utils import set_backbone_requires_grad
 network = ResNetFPN().to(device)
 criterion = DetectionLoss()
 optimizer = optim.AdamW(filter(lambda p: p.requires_grad, network.parameters()), lr=config['lr'], weight_decay=config['weight_decay'])
@@ -117,3 +116,10 @@ for i in range(config['epochs']):
     })
     print(f'Train_loss: {train_loss:.4f}, Test_loss: {test_loss:.4f}')
     torch.save(network.state_dict(), os.path.join(log_dir, f'e_{epoch}.pt'))
+
+
+# --------------------------
+# Plotting Loss
+# --------------------------
+from src.utils import plot_loss
+plot_loss(csv_file, os.path.join(log_dir, 'loss.png'))
