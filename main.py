@@ -11,15 +11,15 @@ config = {
     'run_eda': False,
 
     'batch_size': 128,
-    'epochs': 50,
-    'lr': 1e-4,
+    'epochs': 100,
+    'lr': 3e-4,
     'weight_decay': 3e-4,
     'input_size': (640, 640),
 
     'resume': False,
     'start_epoch': 100,
 
-    'pretrained': True
+    'pretrained': False
 }
 experiment_name = f"bs{config['batch_size']}_lr{config['lr']}"
 log_dir = f'./runs/train/{experiment_name}'

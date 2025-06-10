@@ -14,7 +14,7 @@ class ResNetFPN(nn.Module):
             
 
         # Backbone
-        resnet = models.resnet50(weights=models.ResNet50_Weights.DEFAULT)
+        resnet = models.resnet18(weights=models.ResNet18_Weights.DEFAULT)
         self.backbone_stages = nn.ModuleList([
             nn.Sequential(*list(resnet.children())[:4]),
             resnet.layer1,  # [B, 64, 160, 160]
@@ -23,8 +23,6 @@ class ResNetFPN(nn.Module):
             resnet.layer4  # [B, 512, 20, 20]
         ])
 
-        for param in self.backbone_stages.parameters():
-            param.requires_grad = False
 
         # FPN Layers
         in_channels = [64, 128, 256, 512]
