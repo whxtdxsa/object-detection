@@ -11,19 +11,19 @@ config = {
     'run_eda': False,
 
     'batch_size': 128,
-    'epochs': 100,
+    'epochs': 10,
     'lr': 3e-4,
     'weight_decay': 3e-4,
     'input_size': (640, 640),
 
     'resume': False,
-    'start_epoch': 100,
+    'start_epoch': 73,
 
-    'pretrained': False
+    'pretrained': True
 }
 experiment_name = f"bs{config['batch_size']}_lr{config['lr']}"
 log_dir = f'./runs/train/{experiment_name}'
-pretrained_weight_file = './runs/train/bs128_lr0.0003/e_100.pt'
+pretrained_weight_file = './runs/train/unfreeze_bs128_lr0.0003/e_73.pt'
 
 train_images_dir = './dataset/images/train'
 train_annos_file = './dataset/labels/train.json'

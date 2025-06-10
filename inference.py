@@ -8,10 +8,10 @@ import torch
 config = {
     'batch_size': 8,
     'input_size': (640, 640),
-    'conf_threshold': 0.7
+    'conf_threshold': 0.75
 
 }
-weight_file = './runs/train/bs128_lr0.0003/e_73.pt'
+weight_file = './runs/train/unfreeze_bs128_lr0.0003/e_73.pt'
 log_dir = './runs/predict/'
 
 train_images_dir = './dataset/images/train'
