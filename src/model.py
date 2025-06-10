@@ -22,7 +22,22 @@ class ResNetFPN(nn.Module):
             resnet.layer3,  # [B, 256, 40, 40]
             resnet.layer4  # [B, 512, 20, 20]
         ])
+        
+        for i in range(2):
+            for param in self.backbone_stages[i].parameters():
+                param.requires_grad = False
 
+        for i in range(3):
+            for param in self.backbone_stages[i].parameters():
+                param.requires_grad = False
+
+        for i in range(4):
+            for param in self.backbone_stages[i].parameters():
+                param.requires_grad = False
+        
+        for i in range(5):
+            for param in self.backbone_stages[i].parameters():
+                param.requires_grad = False
 
         # FPN Layers
         in_channels = [64, 128, 256, 512]

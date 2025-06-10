@@ -11,7 +11,7 @@ config = {
     'conf_threshold': 0.7
 
 }
-weight_file = './runs/train/bs128_lr0.0003/e_100.pt'
+weight_file = './runs/train/bs128_lr0.0003/e_73.pt'
 log_dir = './runs/predict/'
 
 train_images_dir = './dataset/images/train'
