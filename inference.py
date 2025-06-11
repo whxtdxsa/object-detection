@@ -6,12 +6,12 @@ import torch
 # Configuration
 # --------------------------
 config = {
-    'batch_size': 8,
+    'batch_size': 16,
     'input_size': (640, 640),
     'conf_threshold': 0.75
 
 }
-weight_file = './runs/train/bs128_lr0.0003/e_3.pt'
+weight_file = './runs/train/best/e_73.pt'
 log_dir = './runs/predict/'
 
 train_images_dir = './dataset/images/train'
