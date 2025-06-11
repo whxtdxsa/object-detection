@@ -80,7 +80,7 @@ def draw_bboxes(image_tensor, pred_tensor, conf_threshold=0.1, save_path="output
         x2 = center_x_pixel + (width_pixel / 2)
         y2 = center_y_pixel + (height_pixel / 2)
 
-        draw.rectangle([x1, y1, x2, y2], outline='red', width=6)
+        draw.rectangle([x1, y1, x2, y2], outline='red', width=4)
         draw.text((x1, y1 - 10), f"{conf:.2f}", fill="red")
     os.makedirs(os.path.dirname(save_path) or ".", exist_ok=True)
     img.save(save_path)
