@@ -23,7 +23,7 @@ class ResNetFPN(nn.Module):
             resnet.layer4  # [B, 512, 20, 20]
         ])
         
-        for i in range(2):
+        for i in range(3):
             for param in self.backbone_stages[i].parameters():
                 param.requires_grad = False
 
