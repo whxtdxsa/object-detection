@@ -8,7 +8,7 @@ import torch
 config = {
     'batch_size': 16,
     'input_size': (640, 640),
-    'conf_threshold': 0.7
+    'conf_threshold': 0.73
 
 }
 weight_file = 'best_w.pt'

@@ -97,7 +97,7 @@ def box_cxcywh_to_xyxy(boxes):
 def postprocess_single_image_predictions(
     raw_preds_single_image: torch.Tensor,
     conf_threshold_nms_candidate: float = 0.2,
-    iou_threshold_nms: float = 0.3
+    iou_threshold_nms: float = 0.25
 ):
     """
     단일 이미지에 대한 모델의 원시 예측값을 후처리하여 NMS를 적용합니다.
